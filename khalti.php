@@ -6,7 +6,6 @@ if ($data) {
     $price = $data['price'];
     $email = $data['email'];
     $name = $data['name'];
-    $_SESSION['product_ids'] = $data['product_ids'];
 
     // Initiate payment
     $curl = curl_init();

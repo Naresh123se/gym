@@ -1,27 +1,23 @@
 <?php
-// Start the session
-session_start();
+session_start(); // Start the session
 
-// Retrieve the session variable
-$product_ids = isset($_SESSION['product_ids']) ? $_SESSION['product_ids'] : [];
- print_r($product_ids); 
+// Get the value from the 'status' parameter in the URL
+$status = isset($_GET['status']) ? $_GET['status'] : '';
+
+// Check if the status is 'completed'
+if ($status === 'Completed') {
+    // Print a JavaScript alert and then redirect to the home page
+    echo '<script type="text/javascript">';
+    echo 'alert("Payment Successful.");';
+    echo 'window.location.href = "http://localhost/gym/";';
+    echo '</script>';
+    
+    // Unset the 'cart' session variable after redirecting
+    $cart = $_SESSION['cart'];
+    unset($_SESSION['cart']);
+    exit();
+} else {
+    // If status is not 'completed', you can handle it accordingly
+    echo "Status is not completed.";
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Page 2</title>
-</head>
-<body>
-    <h1>Product IDs</h1>
-    <?php if (!empty($product_ids)): ?>
-        <ul>
-            <?php foreach ($product_ids as $id): ?>
-                <li><?php echo htmlspecialchars($id); ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>No product IDs found in session.</p>
-    <?php endif; ?>
-</body>
-</html>

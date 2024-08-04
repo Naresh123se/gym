@@ -28,15 +28,17 @@ if (!isset($_SESSION['uid'])) {
     <!-- Main Stylesheets -->
     <link rel="stylesheet" href="css/style.css"/>
     <style>
+      
         .cart-item {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 20px;
         }
         .cart-item img {
             width: 100px;
             height: 100px;
-            margin-right: 20px;
+            margin-right: 30px;
         }
         .cart-item h3 {
             font-size: 20px;
@@ -88,6 +90,13 @@ if (!isset($_SESSION['uid'])) {
         .checkout-btn:hover {
             background: linear-gradient(to right, #ff4b2b, #ff416c);
         }
+
+        .cart-info{
+/* display: flex; */
+
+
+
+        }
     </style>
 </head>
 <body>
@@ -103,7 +112,7 @@ if (!isset($_SESSION['uid'])) {
                 <p>Review your selected items and proceed to checkout.</p>
             </div>
             <form method="post" action="update_cart.php">
-                <div class="row">
+                <div class="row row11">
                     <?php 
                     if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
                         foreach($_SESSION['cart'] as $product_id => $product) {
@@ -111,17 +120,24 @@ if (!isset($_SESSION['uid'])) {
                     
                     <div class="col-lg-12">
                         <div class="cart-item">
-                            <img src="admin/images/<?php echo $product['image']; ?>" alt="<?php echo htmlentities($product['name']); ?>">
+                            <div>
+
+                                <img src="admin/images/<?php echo $product['image']; ?>" alt="<?php echo htmlentities($product['name']); ?>">
+                            </div>
                             <div class="cart-info">
                                 <h3><?php echo htmlentities($product['name']); ?></h3>
                                 <p>Price: $<?php echo htmlentities($product['price']); ?></p>
-                                <p>
+                                </div>
+                                    <div>
+                                    <p>
                                     Quantity: 
                                     <input type="number" name="cart[<?php echo $product_id; ?>][quantity]" class="quantity-input" value="<?php echo htmlentities($product['quantity']); ?>" min="1">
                                     <input type="hidden" name="cart[<?php echo $product_id; ?>][price]" value="<?php echo htmlentities($product['price']); ?>">
                                 </p>
+                                    </div>
+                               
                                 <a class="remove-btn" href="remove_from_cart.php?product_id=<?php echo htmlentities($product_id); ?>">Remove</a>
-                            </div>
+                           
                         </div>
                     </div>
                     <?php 

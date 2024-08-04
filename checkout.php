@@ -36,7 +36,19 @@ $total_price = 0;
         .checkout-item {
             display: flex;
             align-items: center;
+            justify-content: center;
+            border: solid 1px gainsboro;
+            padding: 20px;
+            width: max-content;
+
+
+
             margin-bottom: 20px;
+        }
+
+        .ok {
+            display: flex;
+            justify-content: center;
         }
 
         .checkout-item img {
@@ -96,10 +108,13 @@ $total_price = 0;
                     foreach ($_SESSION['cart'] as $product_id => $product) {
                         $total_price += $product['price'] * $product['quantity'];
 
-                ?>
-                        <div class="col-lg-12">
+                        ?>
+
+
+                        <div class="col-lg-12 ok">
                             <div class="checkout-item">
-                                <img src="admin/images/<?php echo $product['image']; ?>" alt="<?php echo htmlentities($product['name']); ?>">
+                                <img src="admin/images/<?php echo $product['image']; ?>"
+                                    alt="<?php echo htmlentities($product['name']); ?>">
                                 <div class="checkout-info">
                                     <h3><?php echo htmlentities($product['name']); ?></h3>
                                     <p>Price: $<?php echo htmlentities($product['price']); ?></p>
@@ -108,7 +123,7 @@ $total_price = 0;
                                 </div>
                             </div>
                         </div>
-                <?php
+                        <?php
                     }
                 } else {
                     echo "<p>Your cart is empty.</p>";
@@ -116,37 +131,36 @@ $total_price = 0;
                 ?>
             </div>
 
-            <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) : ?>
+            <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
                 <div class="text-center">
                     <p id="priceIn" data-price="<?php echo $total_price; ?>">
                         <strong>Total Price: $<?php echo number_format($total_price, 2); ?></strong>
                     </p>
-                    <button id="payButton" class="khalti"><img src="./khalti.svg" alt="ok" width="80">Pay with Khalti</button>
+                    <button id="payButton" class="khalti"><img src="./khalti.svg" alt="ok" width="80">Pay with
+                        Khalti</button>
                 </div>
             <?php endif; ?>
         </div>
 
         <script>
-            document.getElementById('payButton').addEventListener('click', function() {
-                
+            document.getElementById('payButton').addEventListener('click', function () {
+
                 const priceElement = document.getElementById('priceIn');
                 const total_price = priceElement.getAttribute('data-price');
-                const productIds = "<?php echo $product_id; ?>";
-              console.log(productIds);
                 const data = {
                     price: total_price,
                     email: 'ram@gmail.com',
                     name: 'ram',
-                    product_ids: productIds
+
                 };
 
                 fetch('khalti.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
                     .then(response => response.json())
                     .then(responseData => {
                         if (responseData.payment_url) {
