@@ -4,7 +4,7 @@ include 'include/config.php';
 
 if (strlen($_SESSION['adminid']) == 0) {
   header('location:logout.php');
-  exit; // Ensure script stops here if trainer is not authenticated
+  exit; // Ensure script stops here if the admin is not authenticated
 } else {
   if (isset($_POST['submit'])) {
     // Input validation and sanitization
@@ -37,15 +37,13 @@ if (strlen($_SESSION['adminid']) == 0) {
 
         // Move the uploaded file
         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-          error_log('File upload error: ' . print_r($_FILES, true));
           echo "<script>alert('An error occurred while uploading the image. Please try again.');</script>";
         }
       }
     }
-
     // Prepare and execute the SQL statement
     if ($newfilename) {
-      $sql = "UPDATE tbltrainer SET trainername=:trainername, experience=:experience, email=:email, phone=:phone, description=:description, image=:image WHERE id=:id";
+      $sql = "UPDATE tbltrainer SET trainername=:trainername, experience=:experience, email=:email, phone=:phone, description=:description, photo=:image WHERE id=:id";
       $query = $dbh->prepare($sql);
       $query->bindParam(':image', $newfilename, PDO::PARAM_STR);
     } else {
@@ -75,18 +73,27 @@ if (strlen($_SESSION['adminid']) == 0) {
     $query->bindParam(':id', $id, PDO::PARAM_INT);
     $query->execute();
     $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    // Handle the case where no trainer data is found
+    if (!$result) {
+      echo "<script>alert('No trainer found with this ID.');</script>";
+      exit;
+    }
   }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Trainer | Edit Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/main.css">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body class="app sidebar-mini rtl">
   <?php include 'include/header.php'; ?>
   <?php include 'include/sidebar.php'; ?>
@@ -102,31 +109,39 @@ if (strlen($_SESSION['adminid']) == 0) {
           <div class="tile-body">
             <form method="post" enctype="multipart/form-data">
               <input type="hidden" name="id" value="<?php echo htmlentities($result['id']); ?>">
+              <input type="hidden" name="existing_image" value="<?php echo htmlentities($result['image'] ?? ''); ?>">
+
               <div class="form-group">
                 <label for="trainername">Trainer Name</label>
-                <input class="form-control" type="text" name="trainername" id="trainername" value="<?php echo htmlentities($result['trainername']); ?>" required>
+                <input class="form-control" type="text" name="trainername" id="trainername"
+                  value="<?php echo htmlentities($result['trainername']); ?>" required>
               </div>
               <div class="form-group">
                 <label for="experience">Experience (in years)</label>
-                <input class="form-control" type="number" name="experience" id="experience" value="<?php echo htmlentities($result['experience']); ?>" required>
+                <input class="form-control" type="number" name="experience" id="experience"
+                  value="<?php echo htmlentities($result['experience']); ?>" required>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input class="form-control" type="email" name="email" id="email" value="<?php echo htmlentities($result['email']); ?>" required>
+                <input class="form-control" type="email" name="email" id="email"
+                  value="<?php echo htmlentities($result['email']); ?>" required>
               </div>
               <div class="form-group">
                 <label for="phone">Phone</label>
-                <input class="form-control" type="tel" name="phone" id="phone" value="<?php echo htmlentities($result['phone']); ?>" required>
+                <input class="form-control" type="tel" name="phone" id="phone"
+                  value="<?php echo htmlentities($result['phone']); ?>" required>
               </div>
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" rows="5" name="description" id="description" required><?php echo htmlentities($result['description']); ?></textarea>
+                <textarea class="form-control" rows="5" name="description" id="description"
+                  required><?php echo htmlentities($result['description']); ?></textarea>
               </div>
+
               <div class="form-group">
-                <label for="image">Profile Image</label>
+                <label for="image">Trainers Image</label>
                 <input class="form-control" type="file" name="image" id="image">
-                <?php if ($result['image']): ?>
-                  <img src="admin/images/<?php echo htmlentities($result['image']); ?>" width="150" style="margin-top: 10px;" />
+                <?php if (!empty($result['photo'])): ?>
+                  <img src="images/<?php echo htmlentities($result['photo']); ?>" alt="Image" width="150">
                 <?php endif; ?>
               </div>
               <div class="form-group">
@@ -144,4 +159,5 @@ if (strlen($_SESSION['adminid']) == 0) {
   <script src="js/main.js"></script>
   <script src="js/plugins/pace.min.js"></script>
 </body>
+
 </html>

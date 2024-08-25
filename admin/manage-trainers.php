@@ -20,14 +20,17 @@ if (isset($_GET['del'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Admin | Manage Trainers</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/main.css">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 </head>
+
 <body class="app sidebar-mini rtl">
   <?php include 'include/header.php'; ?>
   <?php include 'include/sidebar.php'; ?>
@@ -71,10 +74,12 @@ if (isset($_GET['del'])) {
                       <td><?php echo htmlentities($result->email); ?></td>
                       <td><?php echo htmlentities($result->phone); ?></td>
                       <td><?php echo htmlentities($result->description); ?></td>
-                      <td><img src="admin/images/<?php echo htmlentities($result->photo); ?>" alt="Image" width="100"></td>
+                      <td><img src="images/<?php echo htmlentities($result->photo); ?>" alt="Image" width="100"></td>
                       <td>
                         <a href="edit-trainer.php?id=<?php echo $result->id; ?>"><i class="fa fa-edit"></i></a>
-                        <a href="manage-trainers.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you really want to delete this trainer?');"><i class="fa fa-trash"></i></a>
+                        <a href="manage-trainers.php?del=<?php echo $result->id; ?>"
+                          onclick="return confirm('Do you really want to delete this trainer?');"><i
+                            class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <?php $cnt = $cnt + 1;
@@ -102,9 +107,10 @@ if (isset($_GET['del'])) {
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       $('#sampleTable').DataTable();
     });
   </script>
 </body>
+
 </html>

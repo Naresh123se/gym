@@ -25,16 +25,18 @@ if (isset($_GET['id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Trainer Details</title>
     <meta charset="UTF-8">
     <meta name="description" content="Trainer Details">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
     <!-- Header Section -->
     <?php include 'include/header.php'; ?>
@@ -45,7 +47,8 @@ if (isset($_GET['id'])) {
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <img src="admin/admin/images/<?php echo htmlentities($result['photo']); ?>" alt="<?php echo htmlentities($result['trainername']); ?>" class="img-fluid">
+                    <img src="admin/images/<?php echo htmlentities($result['photo']); ?>"
+                        alt="<?php echo htmlentities($result['trainername']); ?>" class="img-fluid">
                 </div>
                 <div class="col-lg-6">
                     <h2><?php echo htmlentities($result['trainername']); ?></h2>
@@ -66,4 +69,5 @@ if (isset($_GET['id'])) {
     <script src="js/vendor/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -274,7 +274,7 @@ if (isset($_POST['add_to_cart'])) {
                         <div class="col-lg-4 col-md-6">
                             <div class="trainer-item">
                                 <div class="trainer-img">
-                                    <img src="admin/admin/images/<?php echo htmlentities($result->photo); ?>"
+                                    <img src="admin/images/<?php echo htmlentities($result->photo); ?>"
                                         alt="trainer image">
                                 </div>
                                 <div class="trainer-content">
